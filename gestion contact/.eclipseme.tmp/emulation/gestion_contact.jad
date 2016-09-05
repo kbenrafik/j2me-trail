@@ -1,0 +1,8 @@
+MIDlet-1: gestion_repetoire,,rep2.gestion_repetoire
+MIDlet-Jar-Size: 2190
+MIDlet-Jar-URL: gestion_contact.jar
+MIDlet-Name: gestion contact Midlet Suite
+MIDlet-Vendor: Midlet Suite Vendor
+MIDlet-Version: 1.0.0
+MicroEdition-Configuration: CLDC-1.1
+MicroEdition-Profile: MIDP-2.0

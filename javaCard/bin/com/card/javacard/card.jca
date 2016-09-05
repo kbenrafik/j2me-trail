@@ -1,0 +1,422 @@
+// converted by version 1.3
+// on Thu Dec 25 00:32:19 UTC 2014
+
+.package com/card {
+	.aid 0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0;
+	.version 1.0;
+
+	.imports {
+		0xA0:0x0:0x0:0x0:0x62:0x1:0x1 1.3;		//javacard/framework
+		0xA0:0x0:0x0:0x0:0x62:0x0:0x1 1.0;		//java/lang
+	}
+
+	.applet {
+		0x1:0x2:0x3:0x4:0x5:0x6:0x7:0x8:0x9:0x0:0x0 CreditCard;
+	}
+
+	.constantPool {
+		// 0
+		instanceFieldRef byte[] CreditCard/pin;
+		// 1
+		instanceFieldRef short CreditCard/balance;
+		// 2
+		virtualMethodRef 0.3.1()V;		// register()V
+		// 3
+		classRef CreditCard;
+		// 4
+		staticMethodRef CreditCard/<init>()V;
+		// 5
+		virtualMethodRef 0.10.1()[B;		// getBuffer()[B
+		// 6
+		virtualMethodRef 0.3.3()Z;		// selectingApplet()Z
+		// 7
+		staticMethodRef 0.7.1(S)V;		// javacard/framework/ISOException.throwIt(S)V
+		// 8
+		staticMethodRef CreditCard/consulterSolde(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 9
+		staticMethodRef CreditCard/tirerArgent(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 10
+		staticMethodRef CreditCard/verserSolde(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 11
+		staticMethodRef CreditCard/consulterPin(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 12
+		staticMethodRef CreditCard/modifierPin(Ljavacard/framework/APDU;)V;
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+		// 13
+		virtualMethodRef 0.10.6()S;		// setIncomingAndReceive()S
+		// 14
+		staticMethodRef 0.3.0()V;		// javacard/framework/Applet.<init>()V
+		// 15
+		virtualMethodRef 0.10.7()S;		// setOutgoing()S
+		// 16
+		virtualMethodRef 0.10.9(S)V;		// setOutgoingLength(S)V
+		// 17
+		virtualMethodRef 0.10.4(SS)V;		// sendBytes(SS)V
+		// 18
+		staticMethodRef 0.16.2([BS[BSS)S;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+		// 19
+		virtualMethodRef 0.10.8(SS)V;		// setOutgoingAndSend(SS)V
+	}
+
+	.class public CreditCard 0 extends 0.3 {		// extends javacard/framework/Applet
+
+		.fields {
+			private byte[] pin 0;		// [B
+			 short balance 1;		// S
+			static final byte CARD_CLA = -80;		// B
+			static final byte INS_CONSULTER_SOLDE = 1;		// B
+			static final byte INS_VERSER_SOLDE = 2;		// B
+			static final byte INS_TIRER_SOLDE = 3;		// B
+			static final byte INS_CONSULTER_PIN = 17;		// B
+			static final byte INS_MODIFIER_PIN = 34;		// B
+			static final short MAX_BALANCE = 32767;		// S
+			static final byte MAX_TRANSACTION_AMOUNT = 127;		// B
+			static final short SW_INVALID_TRANSACTION_AMOUNT = 27267;		// S
+			static final short SW_EXCEED_MAXIMUM_BALANCE = 27268;		// S
+			static final short SW_NEGATIVE_BALANCE = 27269;		// S
+		}
+
+		.publicMethodTable 7 {
+			equals(Ljava/lang/Object;)Z;
+			register()V;
+			register([BSB)V;
+			selectingApplet()Z;
+			deselect()V;
+			getShareableInterfaceObject(Ljavacard/framework/AID;B)Ljavacard/framework/Shareable;;
+			select()Z;
+			process(Ljavacard/framework/APDU;)V;
+		}
+
+		.packageMethodTable 0 {
+		}
+
+		.method private <init>()V {
+			.stack 5;
+			.locals 0;
+
+				L0:	aload_0;
+					invokespecial 14;		// javacard/framework/Applet.<init>()V
+					aload_0;
+					sconst_4;
+					newarray 11;
+					dup;
+					sconst_0;
+					sconst_1;
+					bastore;
+					dup;
+					sconst_1;
+					sconst_2;
+					bastore;
+					dup;
+					sconst_2;
+					sconst_3;
+					bastore;
+					dup;
+					sconst_3;
+					sconst_4;
+					bastore;
+					putfield_a 0;		// reference com/card/CreditCard.pin
+					aload_0;
+					invokevirtual 2;		// register()V
+					return;
+		}
+
+		.method public static install([BSB)V 0 {
+			.stack 1;
+			.locals 0;
+
+				L0:	new 3;		// com/card/CreditCard
+					invokespecial 4;		// com/card/CreditCard.<init>()V
+					return;
+		}
+
+		.method public process(Ljavacard/framework/APDU;)V 7 {
+			.stack 2;
+			.locals 1;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_0;
+					invokevirtual 6;		// selectingApplet()Z
+					ifeq L2;
+				L1:	return;
+				L2:	aload_2;
+					sconst_0;
+					baload;
+					bspush -80;
+					if_scmpeq L4;
+				L3:	sspush 28160;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L4:	aload_2;
+					sconst_1;
+					baload;
+					slookupswitch L10 5 1 L5 2 L7 3 L6 17 L8 34 L9;
+				L5:	aload_0;
+					aload_1;
+					invokespecial 8;		// com/card/CreditCard.consulterSolde(Ljavacard/framework/APDU;)V
+					goto L11;
+				L6:	aload_0;
+					aload_1;
+					invokespecial 9;		// com/card/CreditCard.tirerArgent(Ljavacard/framework/APDU;)V
+					goto L11;
+				L7:	aload_0;
+					aload_1;
+					invokespecial 10;		// com/card/CreditCard.verserSolde(Ljavacard/framework/APDU;)V
+					goto L11;
+				L8:	aload_0;
+					aload_1;
+					invokespecial 11;		// com/card/CreditCard.consulterPin(Ljavacard/framework/APDU;)V
+					goto L11;
+				L9:	aload_0;
+					aload_1;
+					invokespecial 12;		// com/card/CreditCard.modifierPin(Ljavacard/framework/APDU;)V
+					goto L11;
+				L10:	sspush 27904;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L11:	return;
+		}
+
+		.method private verserSolde(Ljavacard/framework/APDU;)V {
+			.stack 3;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_4;
+					baload;
+					sstore_3;
+					aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					s2b;
+					sstore 4;
+					sload_3;
+					sconst_1;
+					if_scmpne L2;
+				L1:	sload 4;
+					sconst_1;
+					if_scmpeq L3;
+				L2:	sspush 26368;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L3:	aload_2;
+					sconst_5;
+					baload;
+					sstore 5;
+					sload 5;
+					bspush 127;
+					if_scmpgt L5;
+				L4:	sload 5;
+					ifge L6;
+				L5:	sspush 27267;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	getfield_s_this 1;		// short com/card/CreditCard.balance
+					sload 5;
+					sadd;
+					sspush 32767;
+					if_scmple L8;
+				L7:	sspush 27268;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	aload_0;
+					getfield_s_this 1;		// short com/card/CreditCard.balance
+					sload 5;
+					sadd;
+					putfield_s 1;		// short com/card/CreditCard.balance
+					return;
+		}
+
+		.method private tirerArgent(Ljavacard/framework/APDU;)V {
+			.stack 3;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_4;
+					baload;
+					sstore_3;
+					aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					s2b;
+					sstore 4;
+					sload_3;
+					sconst_1;
+					if_scmpne L2;
+				L1:	sload 4;
+					sconst_1;
+					if_scmpeq L3;
+				L2:	sspush 26368;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L3:	aload_2;
+					sconst_5;
+					baload;
+					sstore 5;
+					sload 5;
+					bspush 127;
+					if_scmpgt L5;
+				L4:	sload 5;
+					ifge L6;
+				L5:	sspush 27267;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L6:	getfield_s_this 1;		// short com/card/CreditCard.balance
+					sload 5;
+					ssub;
+					ifge L8;
+				L7:	sspush 27269;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L8:	aload_0;
+					getfield_s_this 1;		// short com/card/CreditCard.balance
+					sload 5;
+					ssub;
+					putfield_s 1;		// short com/card/CreditCard.balance
+					return;
+		}
+
+		.method private consulterSolde(Ljavacard/framework/APDU;)V {
+			.stack 4;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_1;
+					invokevirtual 15;		// setOutgoing()S
+					sstore_3;
+					sload_3;
+					sconst_2;
+					if_scmpge L2;
+				L1:	bspush -122;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L2:	aload_1;
+					sconst_2;
+					invokevirtual 16;		// setOutgoingLength(S)V
+					aload_2;
+					sconst_0;
+					getfield_s_this 1;		// short com/card/CreditCard.balance
+					bspush 8;
+					sshr;
+					s2b;
+					bastore;
+					aload_2;
+					sconst_1;
+					getfield_s_this 1;		// short com/card/CreditCard.balance
+					sspush 255;
+					sand;
+					s2b;
+					bastore;
+					aload_1;
+					sconst_0;
+					sconst_2;
+					invokevirtual 17;		// sendBytes(SS)V
+					return;
+		}
+
+		.method private consulterPin(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 2;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					getfield_a_this 0;		// reference com/card/CreditCard.pin
+					arraylength;
+					sstore_3;
+					getfield_a_this 0;		// reference com/card/CreditCard.pin
+					sconst_0;
+					aload_2;
+					sconst_0;
+					sload_3;
+					invokestatic 18;		// javacard/framework/Util.arrayCopyNonAtomic([BS[BSS)S
+					pop;
+					aload_1;
+					sconst_0;
+					sload_3;
+					invokevirtual 19;		// setOutgoingAndSend(SS)V
+					return;
+		}
+
+		.method private modifierPin(Ljavacard/framework/APDU;)V {
+			.stack 5;
+			.locals 4;
+
+			.descriptor	Ljavacard/framework/APDU;	0.10;
+
+				L0:	aload_1;
+					invokevirtual 5;		// getBuffer()[B
+					astore_2;
+					aload_2;
+					sconst_4;
+					baload;
+					sstore_3;
+					aload_1;
+					invokevirtual 13;		// setIncomingAndReceive()S
+					s2b;
+					sstore 4;
+					sload_3;
+					sconst_4;
+					if_scmpne L2;
+				L1:	sload 4;
+					sconst_4;
+					if_scmpeq L3;
+				L2:	sspush 26368;
+					invokestatic 7;		// javacard/framework/ISOException.throwIt(S)V
+				L3:	sconst_4;
+					newarray 11;
+					dup;
+					sconst_0;
+					aload_2;
+					sconst_5;
+					baload;
+					bastore;
+					dup;
+					sconst_1;
+					aload_2;
+					bspush 6;
+					baload;
+					bastore;
+					dup;
+					sconst_2;
+					aload_2;
+					bspush 7;
+					baload;
+					bastore;
+					dup;
+					sconst_3;
+					aload_2;
+					bspush 8;
+					baload;
+					bastore;
+					astore 5;
+					aload_0;
+					aload 5;
+					putfield_a 0;		// reference com/card/CreditCard.pin
+					return;
+		}
+
+	}
+
+}
